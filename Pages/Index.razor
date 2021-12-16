@@ -1,0 +1,50 @@
+﻿@page "/"
+
+@inherits CityAirQualityComponentBase
+<div class="input-group">
+    <input type="text" class="form-control" placeholder="Enter City Name to search Air Quality result e.g New York" @bind="CityName" @bind:event="oninput" @onkeydown="OnInitializedAsync">
+    <button type="submit" class="btn btn-primary mb-2" @onclick="OnInitializedAsync" style="width:auto">Search</button>
+
+</div>
+
+
+<br />
+@if (CurrentReport == null)
+{
+    <span>Getting the list</span>
+}
+
+else
+{
+    <table class="table">
+        <thead class="thead-dark">
+            <tr>
+                <th>City</th>
+                <th>Parameters</th>
+                <th>Locations</th>
+                <th>Count</th>
+                <th>First Updated</th>
+                <th>Last Updated</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in CurrentReport.Results.OrderByDescending(c => c.City))
+            {
+                <tr>
+                    <td>@item.City</td>
+                    <td>
+                        @foreach (var items in @item.Parameters)
+                        {
+                            @items <br />
+                        }
+                    </td>
+                    <td>@item.Locations</td>
+                    <td>@item.Count</td>
+                    <td>@item.FirstUpdated</td>
+                    <td>@item.LastUpdated</td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+}
